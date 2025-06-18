@@ -1,62 +1,65 @@
-"use client";
+'use client';
+
 import React, { useEffect, useState } from "react";
-import { createClient } from '@supabase/supabase-js'
-
-
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+import { createClient } from '@supabase/supabase-js';
 
 const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
   const [views, setViews] = useState(0);
 
   useEffect(() => {
-    const incrementView = async () => {
-      try {
-        let { error } = await supabase.rpc("increment", {
-          slug_text:slug ,
-        });
+    if (typeof window !== 'undefined') {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      );
 
-        if (error){
-            console.error("Error incrementing view count inside try block:", error)
-        };
-        
-      } catch (error) {
-        console.error(
-          "An error occurred while incrementing the view count:",
-          error
-        );
-      }
-    };
+      const incrementView = async () => {
+        try {
+          const { error } = await supabase.rpc("increment", {
+            slug_text: slug,
+          });
 
-    if(!noCount){
+          if (error) {
+            console.error("Error incrementing view count:", error);
+          }
+        } catch (error) {
+          console.error("An error occurred while incrementing views:", error);
+        }
+      };
+
+      if (!noCount) {
         incrementView();
+      }
     }
   }, [slug, noCount]);
 
   useEffect(() => {
-    const getViews = async () => {
-      try {
-        let { data, error } = await supabase
-  .from('views')
-  .select('count')
-  .match({slug: slug})
-  .single()
+    if (typeof window !== 'undefined') {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      );
 
-        if (error){
-            console.error("Error incrementing view count inside try block:", error)
-        };
+      const getViews = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('views')
+            .select('count')
+            .match({ slug })
+            .single();
 
+          if (error) {
+            console.error("Error fetching views:", error);
+          }
 
-        setViews(data ? data.count : 0)
-        
-      } catch (error) {
-        console.error(
-          "An error occurred while incrementing the view count:",
-          error
-        );
-      }
-    };
+          setViews(data ? data.count : 0);
+        } catch (error) {
+          console.error("An error occurred while fetching views:", error);
+        }
+      };
 
-        getViews();
+      getViews();
+    }
   }, [slug]);
 
   if (showCount) {
