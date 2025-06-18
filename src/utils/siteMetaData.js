@@ -10,7 +10,7 @@ const siteMetadata = {
     siteLogo: '/logo.png',
     socialBanner: '/social-banner.png', // add social banner in the public folder
     email: 'CALDToolkit27@gmail.com', 
-    github: 'https://github.com/shivarajmishra',
+    github: 'https://github.com/shivarajmishra/Caldtoolkit',
     twitter: 'https://x.com/home',
     facebook: 'https://facebook.com',
     linkedin: 'https://www.linkedin.com',
