@@ -20,8 +20,7 @@ const Footer = () => {
         Interesting Stories | Updates | Guides
       </h3>
       <p className="mt-5 px-4 text-center w-full sm:w-3/5 font-light dark:font-medium text-sm sm:text-base">
-        Subscribe to learn about new technology and updates. Join over 5000+
-        members community to stay up to date with latest news.
+        Subscribe to stay informed about new resources, research insights, and tools for engaging Culturally and Linguistically Diverse (CALD) communities. Join a growing community of over 100 organisations committed to inclusive population health research and practice.
       </p>
 
       <form
